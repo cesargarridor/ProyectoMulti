@@ -9,12 +9,14 @@
         android:id="@+id/txtNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="Nombre"/>
 
     <TextView
         android:id="@+id/txtEdad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="Edad"/>
 
     <Button

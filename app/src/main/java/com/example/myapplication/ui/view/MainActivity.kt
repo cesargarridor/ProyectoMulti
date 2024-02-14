@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.ui.view
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,7 +10,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home,R.id.nav_animal_list
+                R.id.nav_home, R.id.nav_animal_list
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

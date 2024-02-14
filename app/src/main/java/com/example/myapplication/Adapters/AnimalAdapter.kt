@@ -1,44 +1,47 @@
-package com.example.proyecto.Adapters
+package com.example.proyecto.adapter
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemAnimalBinding
 import com.example.proyecto.modelo.Animal
 
 class AnimalAdapter(
-    private val animales: List<Animal>,
-    private val onBorrarClick: (Int) -> Unit,
-    private val onEditarClick: (Int) -> Unit
-) : RecyclerView.Adapter<AnimalAdapter.AnimalViewHolder>() {
+    private val onBorrarAnimal: (Animal) -> Unit,
+    private val onEditarAnimal: (Animal) -> Unit
+) : ListAdapter<Animal, AnimalAdapter.AnimalViewHolder>(AnimalDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimalViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_animal, parent, false)
-        return AnimalViewHolder(view)
+        val binding = ItemAnimalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AnimalViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: AnimalViewHolder, position: Int) {
-        val animal = animales[position]
+        val animal = getItem(position)
         holder.bind(animal)
-        holder.itemView.findViewById<Button>(R.id.btnBorrar).setOnClickListener {
-            onBorrarClick(position)
-        }
-        holder.itemView.findViewById<Button>(R.id.btnEditar).setOnClickListener {
-            onEditarClick(position)
-        }
     }
 
-    override fun getItemCount(): Int {
-        return animales.size
-    }
+    inner class AnimalViewHolder(private val binding: ItemAnimalBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    class AnimalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(animal: Animal) {
-            itemView.findViewById<TextView>(R.id.txtNombre).text = animal.nombre
-            itemView.findViewById<TextView>(R.id.txtEdad).text = animal.edad.toString()
+            binding.apply {
+                txtEdad.text = animal.nombre
+                txtNombre.text = animal.edad.toString()
+                btnBorrar.setOnClickListener { onBorrarAnimal(animal) }
+                btnEditar.setOnClickListener { onEditarAnimal(animal) }
+            }
+        }
+    }
+
+    private class AnimalDiffCallback : DiffUtil.ItemCallback<Animal>() {
+        override fun areItemsTheSame(oldItem: Animal, newItem: Animal): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Animal, newItem: Animal): Boolean {
+            return oldItem == newItem
         }
     }
 }
-
